@@ -28,16 +28,6 @@ public class FrmLogin extends JFrame {
 	private static final Image IMG_BG = new ImageIcon("graphics/background/login.jpg").getImage();
 	
 	/**
-	 * 图片宽度
-	 */
-	private static final int IMG_BG_W = IMG_BG.getWidth(null);
-	
-	/**
-	 * 图片高度
-	 */
-	private static final int IMG_BG_H = IMG_BG.getHeight(null);
-	
-	/**
 	 * 窗体宽度
 	 */
 	private static final int WINDOW_WIDTH = 300;
