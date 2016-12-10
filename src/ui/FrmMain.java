@@ -16,10 +16,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Client.ClientSimulate;
 import Client.IClient;
+import entity.Message;
 
-public class FrmMain extends JFrame {
+public class FrmMain extends JFrame implements IFrmMain {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -120,23 +120,27 @@ public class FrmMain extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				String userName = usersName.get(usersList.getSelectedIndex());
 				if(e.getClickCount() == 2) {
-					if(!frmChats.containsKey(userName)) {
-						IFrmChat frmChat = new FrmChat(user, userName, userPortrait, client);
-						frmChats.put(userName, frmChat);
-					} else {
-						IFrmChat frmChat = frmChats.get(userName);
-						if(!frmChat.getVis()) {
-							frmChat.setVis(true);
-						} else {
-							frmChat.getFocus();
-						}
-					}
+					showChatWindow(userName);
 				}
 			}
 		});
 		
 		
 		this.setVisible(true);
+	}
+	
+	private void showChatWindow(String userName) {
+		if(!frmChats.containsKey(userName)) {
+			IFrmChat frmChat = new FrmChat(user, userName, userPortrait, client);
+			frmChats.put(userName, frmChat);
+		} else {
+			IFrmChat frmChat = frmChats.get(userName);
+			if(!frmChat.getVis()) {
+				frmChat.setVis(true);
+			} else {
+				frmChat.getFocus();
+			}
+		}
 	}
 	
 	public void initialized() {
@@ -164,32 +168,28 @@ public class FrmMain extends JFrame {
 		usersList = new ListUsers(listModel);
 		usersName = new ArrayList<String>();
 		frmChats = new HashMap<String, IFrmChat>();
+	}
+	
+	@Override
+	public void showMsg(Message msg) {
 		
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0.gif"), "Friend001"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/2.gif"), "Friend003"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/3.gif"), "Friend004"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/4.gif"), "Friend005"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/5.gif"), "Friend006"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/6.gif"), "Friend007"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0.gif"), "Friend008"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/1.gif"), "Friend009"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/2.gif"), "Friend010"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/3.gif"), "Friend011"});
-		usersName.add("Friend 001");
-		usersName.add("Friend 003");
-		usersName.add("Friend 004");
-		usersName.add("Friend 005");
-		usersName.add("Friend 006");
-		usersName.add("Friend 007");
-		usersName.add("Friend 008");
-		usersName.add("Friend 009");
-		usersName.add("Friend 010");
-		usersName.add("Friend 011");
+		String sender = msg.getSender();
+		showChatWindow(sender);
+		frmChats.get(sender).showMsg(msg);
+	}
+
+	@Override
+	public void updateUsersList(List<String> users, List<Integer> usersPortrait) {
+		listModel.clear();
+		usersName.clear();
 		
+		for (int i = 0; i < users.size(); i++) {
+			user = users.get(i);
+			userPortrait = usersPortrait.get(i);
+			listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/" + userPortrait +".gif"), user});
+			usersName.add(user);
+		}
 		
 	}
 	
-	public static void main(String[] args) {
-		new FrmMain(new ClientSimulate(), "Knife037", 0);
-	}
 }

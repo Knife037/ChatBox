@@ -10,4 +10,8 @@ public interface IClient {
 	 */
 	public boolean send(Message msg);
 	
+	public Message readMessage();
+	
+	public void listen();
+	
 }
