@@ -6,6 +6,9 @@ import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -56,12 +59,33 @@ public class FrmMain extends JFrame {
 	private DefaultListModel listModel;
 	
 	/**
+	 * 用户s名
+	 */
+	private List<String> usersName; 
+	
+	/**
+	 * 用户名、窗口键值对
+	 */
+	private HashMap<String, IFrmChat> frmChats;
+	/**
 	 * 客户端接口
 	 */
 	private IClient client;
 	
-	public FrmMain(IClient client) {
+	/**
+	 * 用户
+	 */
+	private String user;
+	
+	/**
+	 * 用户头像
+	 */
+	private int userPortrait;
+	
+	public FrmMain(IClient client, String user, int userPortrait) {
 		this.client = client;
+		this.user = user;
+		this.userPortrait = userPortrait;
 		
 		// 初始化窗以及对象
 		initialized();
@@ -91,6 +115,27 @@ public class FrmMain extends JFrame {
 			
 		});
 		
+		usersList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String userName = usersName.get(usersList.getSelectedIndex());
+				if(e.getClickCount() == 2) {
+					if(!frmChats.containsKey(userName)) {
+						IFrmChat frmChat = new FrmChat(user, userName, userPortrait, client);
+						frmChats.put(userName, frmChat);
+					} else {
+						IFrmChat frmChat = frmChats.get(userName);
+						if(!frmChat.getVis()) {
+							frmChat.setVis(true);
+						} else {
+							frmChat.getFocus();
+						}
+					}
+				}
+			}
+		});
+		
+		
 		this.setVisible(true);
 	}
 	
@@ -113,25 +158,38 @@ public class FrmMain extends JFrame {
 		this.setLayout(null);
 		
 		// TODO
-		portraitLabel = new LabelPortrait(new ImageIcon("graphics/portrait/0000.gif").getImage());
+		portraitLabel = new LabelPortrait(new ImageIcon("graphics/portrait/0.gif").getImage());
 		textUserInfo = new JLabel("Knife037");
 		listModel = new DefaultListModel();
 		usersList = new ListUsers(listModel);
+		usersName = new ArrayList<String>();
+		frmChats = new HashMap<String, IFrmChat>();
 		
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0000.gif"), "Friend001"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0002.gif"), "Friend003"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0003.gif"), "Friend004"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0004.gif"), "Friend005"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0005.gif"), "Friend006"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0006.gif"), "Friend007"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0000.gif"), "Friend008"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0001.gif"), "Friend009"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0002.gif"), "Friend010"});
-		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0003.gif"), "Friend011"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0.gif"), "Friend001"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/2.gif"), "Friend003"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/3.gif"), "Friend004"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/4.gif"), "Friend005"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/5.gif"), "Friend006"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/6.gif"), "Friend007"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/0.gif"), "Friend008"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/1.gif"), "Friend009"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/2.gif"), "Friend010"});
+		listModel.addElement(new Object[]{new ImageIcon("graphics/portrait/3.gif"), "Friend011"});
+		usersName.add("Friend 001");
+		usersName.add("Friend 003");
+		usersName.add("Friend 004");
+		usersName.add("Friend 005");
+		usersName.add("Friend 006");
+		usersName.add("Friend 007");
+		usersName.add("Friend 008");
+		usersName.add("Friend 009");
+		usersName.add("Friend 010");
+		usersName.add("Friend 011");
+		
 		
 	}
 	
 	public static void main(String[] args) {
-		new FrmMain(new ClientSimulate());
+		new FrmMain(new ClientSimulate(), "Knife037", 0);
 	}
 }

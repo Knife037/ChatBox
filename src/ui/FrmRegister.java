@@ -104,7 +104,7 @@ private static final long serialVersionUID = 1L;
 				String userName = textUserName.getText();
 				String nickName = textNickName.getText();
 				String password = new String(textPassword.getPassword());
-				Message msg = new Message("anonymous", "server", "requestRegister", 
+				Message msg = new Message("anonymous", "server", 0, "requestRegister", 
 						userName + "|" + nickName + "|" + password);
 				client.send(msg);
 				FrmRegister.this.setVisible(false);

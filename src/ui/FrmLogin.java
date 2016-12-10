@@ -100,7 +100,7 @@ public class FrmLogin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String userName = textUserName.getText();
 				String password = new String(textPassword.getPassword());
-				Message msg = new Message("anonymous", "server", "requestLogin", userName + "|" + password);
+				Message msg = new Message("anonymous", "server", 0, "requestLogin", userName + "|" + password);
 				client.send(msg);				
 			}
 			
