@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import Client.IClient;
+import client.IClient;
 import entity.Message;
 
 public class FrmRegister extends JFrame {
@@ -104,7 +104,7 @@ private static final long serialVersionUID = 1L;
 				String userName = textUserName.getText();
 				String nickName = textNickName.getText();
 				String password = new String(textPassword.getPassword());
-				Message msg = new Message("anonymous", "server", 0, "requestRegister", 
+				Message msg = new Message(client.getName(), "server", 0, "requestRegister", 
 						userName + "|" + nickName + "|" + password);
 				client.send(msg);
 				FrmRegister.this.setVisible(false);

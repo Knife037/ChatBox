@@ -18,7 +18,7 @@ import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import Client.IClient;
+import client.IClient;
 import entity.Message;
 
 public class FrmChat extends JFrame implements IFrmChat {

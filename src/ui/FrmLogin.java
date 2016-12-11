@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import Client.IClient;
+import client.IClient;
 import entity.Message;
 
 public class FrmLogin extends JFrame {
@@ -99,7 +100,7 @@ public class FrmLogin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String userName = textUserName.getText();
 				String password = new String(textPassword.getPassword());
-				Message msg = new Message("anonymous", "server", 0, "requestLogin", userName + "|" + password);
+				Message msg = new Message(client.getName(), "server", 0, "requestLogin", userName + "|" + password);
 				client.send(msg);				
 			}
 			

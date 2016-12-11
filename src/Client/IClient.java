@@ -1,4 +1,4 @@
-package Client;
+package client;
 
 import entity.Message;
 
@@ -13,5 +13,7 @@ public interface IClient {
 	public Message readMessage();
 	
 	public void listen();
+	
+	public String getName();
 	
 }

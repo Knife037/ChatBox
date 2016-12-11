@@ -1,8 +1,9 @@
-package Client;
+package client;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Method;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -21,7 +22,7 @@ public class Client implements IClient {
 	
 	public Client(ICoreControl coreControl) throws UnknownHostException, IOException {
 		this.coreControl = coreControl;
-		client = new Socket("172.25.128.57", 5678);
+		client = new Socket("101.76.224.19", 5678);
 		ois = new ObjectInputStream(client.getInputStream());
 		oos = new ObjectOutputStream(client.getOutputStream());
 	}
@@ -55,6 +56,11 @@ public class Client implements IClient {
 		new Thread(new Listen()).start();
 	}
 	
+	@Override
+	public String getName() {
+		return client.getInetAddress().toString();
+	}
+	
 	public class Listen implements Runnable {
 		
 		@Override
@@ -65,8 +71,11 @@ public class Client implements IClient {
 			while(true) {
 				try {
 					msg = (Message) ois.readObject();
+					Method method = coreControl.getClass().getMethod(msg.getType(), Message.class);
+					method.invoke(coreControl, msg);
 				} catch (Exception e) {
 					System.out.println("主机已下线");
+					e.printStackTrace();
 					break;
 				}
 				coreControl.MessageHandle(msg);

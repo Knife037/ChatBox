@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Client.IClient;
+import client.IClient;
 import entity.Message;
 
 public class FrmMain extends JFrame implements IFrmMain {
